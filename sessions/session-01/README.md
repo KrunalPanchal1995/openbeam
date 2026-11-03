@@ -23,7 +23,7 @@
 A plank across a stream bends when you stand on it. Two things hold it up: the two banks. How much of your weight does each bank carry? Where inside the plank is the bending worst? Engineers answer with three pictures: the reactions at the supports, the shear force diagram and the bending moment diagram. This repo is a classroom model: it teaches the ideas, and is never a tool for designing a real structure.
 
 ## B. Concept and theory
-A simply supported beam of span L rests on a support at x = 0 (A) and x = L (B). A downward point load P acts at distance a from A, and b = L - a from B. The beam stays still, so forces balance (RA + RB = P) and turning effects about A balance (RB L = P a). Cutting the beam at x and keeping the left piece shows what the inside of the beam must supply: a vertical shear force V and a bending moment M. M is largest where V changes sign. The slope of the moment diagram equals the shear force.
+A simply supported beam of span L rests on a support at x = 0 (A) and x = L (B). A downward point load P acts at distance a from A, and b = L - a from B. The beam stays still, so forces balance (RA + RB = P) and turning effects about A balance (RB L = P a). Cutting the beam at x and keeping the left piece shows what the inside of the beam must supply: a vertical shear force V and a bending moment M. M is largest where V changes sign (here, under the load). The slope of the moment diagram equals the shear force.
 
 | Symbol | Meaning | Unit |
 |---|---|---|
@@ -47,7 +47,7 @@ $$ V(x)=R_A\ (x<a),\qquad V(x)=R_A-P\ (x>a) $$
 $$ M(x)=R_A\,x\ (x\le a),\qquad M(x)=R_A\,x-P\,(x-a)\ (x\ge a),\qquad M_{\max}=\frac{P\,a\,b}{L} $$
 
 ## C. Visual explanation
-The first figure shows shear force and bending moment diagrams for the same 12 kN load placed at two positions on an 8 m beam. The shear diagram is two flat steps that change sign at the load; the moment diagram is a tent whose peak sits under the load. Moving the load towards the middle makes the tent taller. The second figure plots the largest moment against the load position: a parabola with its top at the centre, where it equals P L / 4 = 24 kN m.
+The first figure shows shear force and bending moment diagrams for the same 12 kN load placed at two positions on an 8 m beam. The shear diagram is two flat levels with a sudden jump of size P at the load, where the sign changes; the moment diagram is a tent whose peak sits under the load. Moving the load towards the middle makes the tent taller. The second figure plots the largest moment against the load position: a parabola with its top at the centre, where it equals P L / 4 = 24 kN m.
 
 ![The largest moment against load position: highest at the centre, P L / 4 = 24 kN m.](../../docs/figures/s01_moment_vs_position.png)
 
@@ -73,7 +73,7 @@ Run the lesson (`python start.py 1`), then open the live app: [Session 1: reacti
 
 **Answer.** RA = 9 kN, RB = 3 kN; shear +9 kN then -3 kN; largest moment 18 kN m at x = 2 m.
 
-**Experiment.** Rest a metre ruler on two kitchen scales, one under each end, and hang a known weight from a loop at a chosen point. Read both scales: they should add up to the weight and match P b / L and P a / L to within the scale accuracy. Differences come from the ruler's own weight, which the model ignores, and from the scale readings: the model has a perfectly point-like load and perfect supports.
+**Experiment.** Rest a metre ruler on two kitchen scales, one under each end, and hang a known weight from a loop at a chosen point. Read both scales: they should add up to the weight and match P b / L and P a / L to within the scale accuracy. Differences come from the ruler's own weight, which the model ignores, from a loop that is not a perfect point load, and from supports that are not ideal.
 
 ## F. Assessment and design challenge
 **Question type A: Conceptual.** Why does the support closer to the load carry more of it? What happens to the two reactions when the load slides to exactly the middle?
@@ -91,6 +91,7 @@ Think of a see-saw: which end must push harder to stop it turning?
 Balance of turning effects about the far support shows that the near support must supply the bigger share (RA = P b / L is bigger when b, the distance to the far support, is bigger). At the middle a = b = L / 2, so both reactions equal P / 2.
 
 </details>
+
 **Question type B: Numerical.** A 20 kN load acts 1.5 m from the left support of a 5 m beam. Find RA, RB and the largest bending moment, with units, and check that the answers are sensible.
 
 <details>
@@ -106,6 +107,7 @@ b = 3.5 m. Use RA = P b / L and M = RA a.
 RA = 20 x 3.5 / 5 = 14 kN, RB = 20 x 1.5 / 5 = 6 kN. Check: 14 + 6 = 20 kN. M max = 14 x 1.5 = 21 kN m (also 6 x 3.5 = 21 kN m). The bigger reaction is on the side nearer the load, as expected.
 
 </details>
+
 **Question type C: Graph and simulation interpretation.** On the moment graph, where is the peak, what is the slope of the line to its left, and what does that slope equal on the shear graph?
 
 <details>
@@ -121,6 +123,7 @@ The slope of M against x is the shear force V.
 The peak is directly under the load. To its left M rises in a straight line whose slope is RA (in kN m per m, which is kN); that equals the positive shear step on the shear graph. To the right M falls with slope -RB, the negative shear step. The peak is where V changes sign.
 
 </details>
+
 **Question type D: Design and optimisation challenge.** A shelf plank can take at most 15 kN m of bending moment. The load is 10 kN on a 6 m span. In which positions along the span may the load stand, if any?
 
 <details>
