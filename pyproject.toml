@@ -1,7 +1,7 @@
 [project]
 name = "openbeam"
 version = "0.1.0"
-description = "Learn beam loading and deflection: shear, moment, deflection and the lightest beam that passes, in 3 sessions."
+description = "Learn beam loading and deflection: shear, moment, deflection and the lightest beam that passes, in 4 sessions."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }

@@ -1,7 +1,7 @@
 """One command to set up and run this repo. No activation of environments needed.
 
-    python start.py 1          run Session 1 (also: 2, 3) and its checkpoint
-    python start.py all        run all three sessions
+    python start.py 1          run Session 1 (also: 2, 3, 4) and its checkpoint
+    python start.py all        run all four sessions
     python start.py check 1    run only the checkpoint of Session 1
     python start.py run my.py  run your own file inside the private environment
     python start.py test       run every lesson and checkpoint (what CI does)

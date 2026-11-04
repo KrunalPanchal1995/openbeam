@@ -2,14 +2,14 @@
 
 [![Checks](https://github.com/KrunalPanchal1995/openbeam/actions/workflows/ci.yml/badge.svg)](https://github.com/KrunalPanchal1995/openbeam/actions/workflows/ci.yml) ![License: MIT](https://img.shields.io/badge/license-MIT-green?style=flat-square) ![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue?style=flat-square) [![Open in Colab](https://img.shields.io/badge/Colab-session%201-F9AB00?style=flat-square&logo=googlecolab&logoColor=white)](https://colab.research.google.com/github/KrunalPanchal1995/openbeam/blob/main/sessions/session-01/lesson.ipynb) [![Live apps](https://img.shields.io/badge/live-apps-1f6feb?style=flat-square)](https://krunalpanchal1995.github.io/openbeam/)
 
-**Find the lightest beam that does not sag too much, in three sessions.**
+**Find the lightest beam that does not sag too much, in four sessions.**
 
 openbeam teaches how a loaded beam carries its load, from reactions and bending-moment diagrams to a finite-element solver you can check against hand formulas, using only Python and a browser.
 
 - **Start from a plank.** Session 1 needs only school algebra: forces balance, and a beam bends most where the moment is largest.
 - **See it bend.** Every session ships a slider app that runs in the browser, with labelled shear, moment and deflection graphs.
 - **Know you got it right.** Each session ends with a checkpoint that prints PASS or FAIL against hand calculations and exact formulas.
-- **Build the missing half.** The repo stops at Session 3 on purpose; the roadmap shows the path to the Target.
+- **Build the missing half.** The repo stops at Session 4 on purpose; the roadmap shows the path to the Target.
 
 [Target](#the-target) · [Who is this for](#who-is-this-for) · [Quick start](#quick-start) · [Sessions](#sessions) · [Roadmap](#roadmap) · [Contribute](#contribute) · [Explainer PDF](docs/explainer.pdf)
 
@@ -17,7 +17,7 @@ openbeam teaches how a loaded beam carries its load, from reactions and bending-
 
 ## The Target
 
-A load rolls across a steel-like beam. The beam sags under it (drawn enlarged), while the shear, moment and deflection diagrams below it move with the load. On the right, a depth-versus-weight chart shows the trade-off: a deeper beam is stiffer, but heavier, and the lightest beam that meets the deflection limit and the stress limit sits right where the two limit curves cross. Your goal over the coming sessions: build this explorer yourself, then add an I-section and a moving-load envelope.
+A load rolls across a steel-like beam. The beam sags under it (drawn enlarged), while the shear, moment and deflection diagrams below it move with the load. On the right, a depth-versus-weight chart shows the trade-off: a deeper beam is stiffer, but heavier, and the lightest beam that meets the deflection limit and the stress limit sits right where the two limit curves cross. Your goal over the coming sessions: build this explorer yourself, starting from the Session 4 envelope and adding an I-section.
 
 ![Target: a load crossing a beam, with moving shear, moment and deflection diagrams and the depth-versus-weight trade-off](promo/media/target.gif)
 
@@ -79,8 +79,9 @@ Every session also opens in your browser with sliders (no install): [live apps](
 | 1 | [Reactions, shear and moment: what a beam does with a load](sessions/session-01/README.md) | Level 1: conceptual interactive model | 60 min | [open](https://krunalpanchal1995.github.io/openbeam/session-01/) |
 | 2 | [Stiffness and strength: second moment of area, deflection and stress](sessions/session-02/README.md) | Level 2: mathematical engineering model | 80 min | [open](https://krunalpanchal1995.github.io/openbeam/session-02/) |
 | 3 | [Solve it numerically: a finite-element beam, validated and refined](sessions/session-03/README.md) | Level 3: simulation and validation | 90 min | [open](https://krunalpanchal1995.github.io/openbeam/session-03/) |
+| 4 | [A load that moves: the envelope of shear and moment](sessions/session-04/README.md) | Level 3: simulation and validation | 90 min | [open](https://krunalpanchal1995.github.io/openbeam/session-04/) |
 
-Each session follows the same six steps: A real-world problem, B concept and theory, C visual explanation, D interactive simulation, E worked example and experiment, F assessment and design challenge. Each ends with `checkpoint.py`, which prints `PASS` or `FAIL` against reference numbers. Session 3 also contains the real-world mini-project: **Check a footbridge girder (classroom exercise only)**.
+Each session follows the same six steps: A real-world problem, B concept and theory, C visual explanation, D interactive simulation, E worked example and experiment, F assessment and design challenge. Each ends with `checkpoint.py`, which prints `PASS` or `FAIL` against reference numbers. Session 3 contains the real-world mini-project **Check a footbridge girder (classroom exercise only)**, and Session 4 the mini-project **Choose a girder for a crossing vehicle (classroom exercise only)**.
 
 ## Architecture
 
@@ -89,14 +90,15 @@ flowchart LR
   S1[Session 1<br/>Reactions, shear and moment: what a beam does with a load]
   S2[Session 2<br/>Stiffness and strength: second moment of area, deflection and stress]
   S3[Session 3<br/>Solve it numerically: a finite-element beam, validated and refined]
-  R[Roadmap S4+<br/>YOU build this]
+  S4[Session 4<br/>A load that moves: the envelope of shear and moment]
+  R[Roadmap S5+<br/>YOU build this]
   T((Target))
-  S1 --> S2 --> S3 --> R --> T
+  S1 --> S2 --> S3 --> S4 --> R --> T
 ```
 
 | Folder or file | What is inside |
 |---|---|
-| `sessions/` | three sessions: README (A-F), `lesson.py`, notebook, live app, exercises, activity sheet, checkpoint |
+| `sessions/` | four sessions: README (A-F), `lesson.py`, notebook, live app, exercises, activity sheet, checkpoint |
 | `promo/` | the Target: media, live links, and the roadmap (path only) |
 | `docs/` | `explainer.tex` and the built `explainer.pdf` |
 | `tests/` | runs every lesson and checkpoint headless |
@@ -108,11 +110,9 @@ flowchart LR
 
 | Milestone | What you will build | Difficulty |
 |---|---|---|
-| Session 4: Lightest I-section by search | A search over I-section dimensions for the footbridge girder, with the proportion limits you choose and state. | intermediate |
-| Session 5: Moving-load envelope | A function that sweeps a two-axle load (2 x 10 kN, 3 m apart) along a 12 m span and records the largest moment at each section. | intermediate |
-| Session 6: Continuous beam with a middle support | An extension of `solve_beam` with an interior support, for two equal spans under a uniform load. | advanced |
-| Session 7: Shear deformation (Timoshenko element) | A beam element that includes shear deformation. | advanced |
-| Session 8: Depth-versus-weight explorer | An animation or app that shows the beam, the shear, moment and deflection diagrams and the lightest passing depth for any span. | advanced |
+| Session 5: Lightest I-section by search | A search over I-section dimensions for the footbridge girder, with the proportion limits you choose and state. | intermediate |
+| Session 6: Shear deformation (Timoshenko element) | A beam element that includes shear deformation. | advanced |
+| Session 7: Depth-versus-weight explorer | An animation or app that shows the beam, the shear, moment and deflection diagrams and the lightest passing depth for any span. | advanced |
 
 Full detail with a checkpoint per milestone: [promo/roadmap.md](promo/roadmap.md).
 

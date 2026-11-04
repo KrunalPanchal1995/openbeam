@@ -2,7 +2,7 @@
 
 This is the path, not the code. Each milestone says what you learn, what you build, and how you know it works. Pick one and open a pull request. See [CONTRIBUTING.md](../CONTRIBUTING.md).
 
-## Session 4: Lightest I-section by search
+## Session 5: Lightest I-section by search
 
 **You will learn:** How a free choice of flange width, flange thickness, web thickness and depth lowers the mass, and the limits (slenderness, flange outstand) that stop it going absurd.
 
@@ -12,27 +12,7 @@ This is the path, not the code. Each milestone says what you learn, what you bui
 
 **Difficulty:** intermediate
 
-## Session 5: Moving-load envelope
-
-**You will learn:** The envelope of shear and moment as a load group crosses the span, and the worst position of two axles.
-
-**You will build:** A function that sweeps a two-axle load (2 x 10 kN, 3 m apart) along a 12 m span and records the largest moment at each section.
-
-**Checkpoint (not met by the shipped code):** The peak of the moment envelope is within 1% of the hand value 45.9 kN m (the shipped code handles only one load at a time).
-
-**Difficulty:** intermediate
-
-## Session 6: Continuous beam with a middle support
-
-**You will learn:** Statically indeterminate beams: why a middle support relieves the span, and how the solver finds an unknown reaction.
-
-**You will build:** An extension of `solve_beam` with an interior support, for two equal spans under a uniform load.
-
-**Checkpoint (not met by the shipped code):** The middle reaction is within 1% of 1.25 q L for spans of L each (the shipped solver has only end supports).
-
-**Difficulty:** advanced
-
-## Session 7: Shear deformation (Timoshenko element)
+## Session 6: Shear deformation (Timoshenko element)
 
 **You will learn:** Why deep beams sag more than Euler-Bernoulli theory says, and the shear correction factor.
 
@@ -42,9 +22,9 @@ This is the path, not the code. Each milestone says what you learn, what you bui
 
 **Difficulty:** advanced
 
-## Session 8: Depth-versus-weight explorer
+## Session 7: Depth-versus-weight explorer
 
-**You will learn:** Turn a design search into an animated explorer: moving load, linked diagrams and a trade-off chart.
+**You will learn:** Turn a design search into an animated explorer: moving load, linked diagrams and a trade-off chart (Session 4 gives you the envelope to build on).
 
 **You will build:** An animation or app that shows the beam, the shear, moment and deflection diagrams and the lightest passing depth for any span.
 
