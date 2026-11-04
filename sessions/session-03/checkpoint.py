@@ -52,6 +52,30 @@ def run_checks(L):
     checks.append(("mini-project: the 180 mm section fails the deflection limit", (not r180["ok_defl"]) and r180["ok_stress"]))
     r_a = L.check_footbridge(6.0, 3500.0, 5000.0, 200e9, 250e6, 1.5, sec, n=120)
     checks.append(("result does not depend on the mesh (120 versus 240 elements)", abs(r_a["w"] - r190["w"]) / r190["w"] < 1e-6))
+    # continuous beams: supports at any node, reactions returned
+    Lsp = 4.0
+    two = L.solve_beam(2 * Lsp, 8, EI, q=q, supports=[(0.0, "pin"), (Lsp, "pin"), (2 * Lsp, "pin")])
+    R = [rx[1] for rx in two["reactions"]]
+    checks.append((f"two equal spans, uniform load: middle reaction is 1.25 q L = {1.25 * q * Lsp / 1e3:.1f} kN (got {R[1] / 1e3:.3f})",
+                   abs(R[1] - 1.25 * q * Lsp) < 0.01 * 1.25 * q * Lsp))
+    checks.append(("two equal spans: end reactions are 3 q L / 8 and the three reactions add up to the total load",
+                   abs(R[0] - 0.375 * q * Lsp) < 1 and abs(R[2] - 0.375 * q * Lsp) < 1 and abs(sum(R) - q * 2 * Lsp) < 1e-6))
+    checks.append(("two equal spans: the beam does not deflect at the middle support", abs(two["w"][4]) == 0.0 and two["w"][2] > 0))
+    prop = L.solve_beam(Lsp, 8, EI, q=q, supports=[(0.0, "fixed"), (Lsp, "pin")])
+    Rp = [rx[1] for rx in prop["reactions"]]
+    checks.append(("propped cantilever: reactions 5 q L / 8 at the wall and 3 q L / 8 at the prop, wall moment q L^2 / 8 (hogging)",
+                   abs(Rp[0] - 5 * q * Lsp / 8) < 1 and abs(Rp[1] - 3 * q * Lsp / 8) < 1
+                   and abs(abs(prop["reactions"][0][2]) - q * Lsp ** 2 / 8) < 1))
+    old = L.solve_beam(Ln, 4, EI, points=[(Ln / 2, P)])
+    new = L.solve_beam(Ln, 4, EI, points=[(Ln / 2, P)], supports=[(0.0, "pin"), (Ln, "pin")])
+    checks.append(("the supports option with two end pins gives the same beam as support='simple'",
+                   np.abs(old["w"] - new["w"]).max() < 1e-15 and abs(old["reactions"][0][1] - P / 2) < 1e-6))
+    try:
+        L.solve_beam(2 * Lsp, 8, EI, q=q, supports=[(0.0, "pin"), (3.3, "pin"), (2 * Lsp, "pin")])
+        off_node = False
+    except ValueError:
+        off_node = True
+    checks.append(("a support that is not on a node is refused with a clear error", off_node))
     return checks
 
 

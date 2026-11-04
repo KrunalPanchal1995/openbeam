@@ -52,16 +52,19 @@ def shape(xi, le):
 # %% [markdown]
 # ## Step 2: assemble and solve
 # `EI` may be a number or a function of x (a beam whose depth changes). Supports are
-# "simple" (w = 0 at both ends) or "cantilever" (w = theta = 0 at x = 0).
+# "simple" (w = 0 at both ends) or "cantilever" (w = theta = 0 at x = 0). For a continuous beam
+# give `supports=[(x, "pin"), ...]`: a "pin" holds w = 0 and a "fixed" support holds w = theta = 0
+# at the node nearest x. Every support's upward reaction is returned in `reactions`.
 
 # %%
-def solve_beam(L, n, EI, q=0.0, points=(), support="simple"):
+def solve_beam(L, n, EI, q=0.0, points=(), support="simple", supports=None):
     """Euler-Bernoulli beam by finite elements.
 
     L span (m); n elements; EI constant (N m^2) or function EI(x); q uniform load (N/m, downward);
-    points = [(x, P), ...] downward point loads (N); support = "simple" or "cantilever".
-    Returns dict with nodes x, deflection w (m, down), slope th, and per-element mid-point
-    arrays xm, M (N m, sagging positive) and V (N).
+    points = [(x, P), ...] downward point loads (N); support = "simple" or "cantilever", or
+    supports = [(x, "pin" or "fixed"), ...] for supports at any nodes (x must lie on a node).
+    Returns dict with nodes x, deflection w (m, down), slope th, per-element mid-point arrays
+    xm, M (N m, sagging positive) and V (N), and reactions = [(x, upward force N, moment N m), ...].
     """
     xs = np.linspace(0.0, L, n + 1)
     le = L / n
@@ -77,7 +80,14 @@ def solve_beam(L, n, EI, q=0.0, points=(), support="simple"):
         e = min(int(xp / le), n - 1)
         xi = (xp - xs[e]) / le
         F[2 * e:2 * e + 4] += P * shape(xi, le)
-    fixed = [0, 2 * n] if support == "simple" else [0, 1]
+    if supports is None:
+        supports = [(0.0, "pin"), (L, "pin")] if support == "simple" else [(0.0, "fixed")]
+    fixed = []
+    for xs_, kind in supports:
+        i = int(round(xs_ / le))
+        if abs(xs[i] - xs_) > 1e-9 * max(L, 1.0):
+            raise ValueError(f"a support at x = {xs_} is not on a node; use a mesh whose nodes include it")
+        fixed += [2 * i] if kind == "pin" else [2 * i, 2 * i + 1]
     free = [i for i in range(2 * n + 2) if i not in fixed]
     d = np.zeros(2 * n + 2)
     d[free] = np.linalg.solve(K[np.ix_(free, free)], F[free])
@@ -88,7 +98,10 @@ def solve_beam(L, n, EI, q=0.0, points=(), support="simple"):
         de = d[2 * e:2 * e + 4]
         M[e] = -eis[e] * (de[3] - de[1]) / le                      # -EI w'' averaged over the element (w is downward)
         V[e] = -eis[e] / le ** 3 * (12 * de[0] + 6 * le * de[1] - 12 * de[2] + 6 * le * de[3])
-    return {"x": xs, "w": w, "th": th, "xm": 0.5 * (xs[:-1] + xs[1:]), "M": M, "V": V}
+    # reaction = applied load minus what the stiffness carries, at the held degrees of freedom
+    r = F - K @ d
+    reactions = [(xs[i], r[2 * i], r[2 * i + 1]) for i in sorted({f // 2 for f in fixed})]
+    return {"x": xs, "w": w, "th": th, "xm": 0.5 * (xs[:-1] + xs[1:]), "M": M, "V": V, "reactions": reactions}
 
 
 # %% [markdown]
