@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Session 2: deflection, stress and the lightest beam</title>
 <style>
-  :root { --bg:#ffffff; --fg:#14181f; --muted:#5b6472; --card:#f3f5f8; --accent:#1f6feb; --good:#1a7f37; --bad:#b42318; --line:#d7dce3; }
-  @media (prefers-color-scheme: dark) { :root { --bg:#0e1116; --fg:#e6e9ee; --muted:#9aa3b2; --card:#171b22; --accent:#58a6ff; --good:#3fb950; --bad:#f97066; --line:#2a313c; } }
+  :root { --bg:#ffffff; --fg:#14181f; --muted:#5b6472; --card:#f3f5f8; --accent:#003f7f; --good:#c86a00; --bad:#d81b60; --line:#d7dce3; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#0e1116; --fg:#e6e9ee; --muted:#9aa3b2; --card:#171b22; --accent:#3b8fe0; --good:#ffc857; --bad:#e0457b; --line:#2a313c; } }
   * { box-sizing: border-box; }
   body { margin:0; padding:16px; background:var(--bg); color:var(--fg); font:16px/1.5 system-ui, sans-serif; }
   main { max-width: 780px; margin: 0 auto; }
@@ -135,7 +135,7 @@ if (graph === "beam") {
   curve(() => -lim, A, C.bad, 0, L, 2);
   dot(A, a, -1e3 * vOf(a), C.accent, "under P");
 } else {
-  const A = axes({ x: [80, 400], y: [0, 3], xl: "beam depth h (mm)", yl: "demand / limit (1 = at the limit)", title: "Deeper beams pass; blue = deflection, green = stress" }, C);
+  const A = axes({ x: [80, 400], y: [0, 3], xl: "beam depth h (mm)", yl: "demand / limit (1 = at the limit)", title: "Deeper beams pass; blue = deflection, orange = stress" }, C);
   curve(h => demand(h)[0], A, C.accent, 80, 400, 80);
   curve(h => demand(h)[1], A, C.good, 80, 400, 80);
   curve(() => 1, A, C.bad, 80, 400, 2);
